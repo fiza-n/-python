@@ -3,28 +3,40 @@ from functools import wraps
 
 # decorators
 
-def my_logging(func):
-    import logging
-    logging.basicConfig(filename=f"{func.__name__}.log", level=logging.INFO)
-    @wraps(func)
-    def wrapper(*args, **kwargs):
-        logging.info(f"Running {func.__name__} with arguments {args} and keyword arguments {kwargs}")
-        return func(*args, **kwargs)
-    return wrapper
+# def my_logging(func):
+#     import logging
+#     logging.basicConfig(filename=f"{func.__name__}.log", level=logging.INFO)
+#     @wraps(func)
+#     def wrapper(*args, **kwargs):
+#         logging.info(f"Running {func.__name__} with arguments {args} and keyword arguments {kwargs}")
+#         return func(*args, **kwargs)
+#     return wrapper
 
-def my_timer(func):
-    import time
-    @wraps(func)
-    def wrapper_func(*args, **kwargs):
-        t1 = time.time()
-        t2 = time.time()- t1
-        print(f"This is a wrapper function and ran in {t2:.4f} sec")
-        return func(*args, **kwargs)
-    return wrapper_func
+# def my_timer(func):
+#     import time
+#     @wraps(func)
+#     def wrapper_func(*args, **kwargs):
+#         t1 = time.time()
+#         t2 = time.time()- t1
+#         print(f"This is a wrapper function and ran in {t2:.4f} sec")
+#         return func(*args, **kwargs)
+#     return wrapper_func
 
 
-@my_logging
-@my_timer
+# @my_logging
+# @my_timer
+
+
+def prefix_decorator(prefix):
+    def decorator_func(func):
+        def wrapper_func(*args, **kwargs):
+            print(prefix, "This is a wrapper function")
+            return func(*args, **kwargs)
+        return wrapper_func
+    return decorator_func
+
+
+@prefix_decorator("Hello")
 def display_info(*args, **kwargs):
     print(f"my name is {args[0]} and I am {kwargs['age']} years old")
 
@@ -32,11 +44,6 @@ display_info("mehak", age=21)
 
 
 
-# def decorator_func(func):
-#     def wrapper_func(*args, **kwargs):
-#         print("This is a wrapper function")
-#         return func(*args, **kwargs)
-#     return wrapper_func
 
 # # class decorator_class(object):
 # #     def __init__(self, func):
