@@ -1,20 +1,55 @@
 from contextlib import contextmanager
+import time
 import os
 
+
+import contextlib
+
 @contextmanager
-def change_dir(destination):
+def ignore_errors(*error_types):
     try:
-        cwd = os.getcwd
-        os.chdir(destination)
         yield
-    finally:
-        os.chdir(cwd)
+    except error_types as e:
+        print(f"Suppressed: {type(e).__name__} - {e}") 
 
-with change_dir("D:\Python\python\modules"):
-    print(os.listdir())
+# with ignore_errors(ZeroDivisionError, FileNotFoundError):
+#     1/0
+#     print("zero division error not occurred") 
 
-with change_dir("D:\Python\python\modules2"):
-    print(os.listdir())
+with contextlib.suppress(FileNotFoundError):
+    print("Trying to open a non-existent file...")
+    open("non_existent_file.txt", "r")
+   
+
+# with ignore_errors( FileNotFoundError):
+#     print("Trying to open a non-existent file...")
+#     open("non_existent_file.txt", "r")
+
+# class Timer():
+#     def __enter__(self):
+#         self.start = time.time()
+#         return self
+#     def __exit__(self, exc_type, exc_value, traceback):
+#         self = time.time() - self.start
+#         print(f"Time taken: {self:.4f} sec")
+
+# with Timer() as t:
+#     time.sleep(1)
+#     raise ValueError("boom")
+
+# def change_dir(destination):
+#     try:
+#         cwd = os.getcwd()
+#         os.chdir(destination)
+#         yield
+#     finally:
+#         os.chdir(cwd)
+
+# with change_dir("D:\Python\python\modules"):
+#     print(os.listdir())
+
+# with change_dir("D:\Python\python\modules2"):
+#     print(os.listdir())
 
 # @contextmanager
 # def Open_file(filename, mode):
