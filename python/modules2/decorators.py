@@ -39,8 +39,9 @@ def prefix_decorator(prefix):
 @prefix_decorator("Hello")
 def display_info(*args, **kwargs):
     print(f"my name is {args[0]} and I am {kwargs['age']} years old")
+display_info("fiza", 21)
 
-display_info("mehak", age=21)
+print(display_info)
 
 
 
