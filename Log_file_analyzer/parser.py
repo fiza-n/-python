@@ -28,4 +28,3 @@ def parse_lines(lines):
             print(f"Skipped malformed line: {line!r}")
 
 parser = parse_lines(open(base_dir / "log_file.txt"))
-print(next(parser))
